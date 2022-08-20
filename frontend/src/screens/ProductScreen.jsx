@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import products from "../products";
 import Rating from "../components/Rating";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const ProductScreen = (props) => {
+    const [product, setProduct] = useState([]);
     const { id } = useParams();
-    const product = products.find((p) => p._id === id);
+
+    useEffect(() => {
+        async function fetchProduct() {
+            const { data } = await axios.get(`/api/products/${id}`);
+            setProduct(data);
+        }
+        fetchProduct();
+    }, []);
+
     return (
         <div className="product-main">
             <figure className="product-image">

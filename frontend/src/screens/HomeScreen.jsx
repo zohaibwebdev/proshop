@@ -1,24 +1,29 @@
-import React from 'react'
-import Product from '../components/Product'
-import products from '../products'
+import React from "react";
+import Product from "../components/Product";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const HomeScreen = () => {
-  return (
-    <div className='home'>
-        <h1>Latest Products Available</h1>
-        <div className="cards">
-            {
-                products.map(product =>(
-                    <Product product={product}/>
-                ))
-            }
-            
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        async function fetchProduct() {
+            const { data } = await axios.get("/api/products");
+            setProducts(data);
+        }
+        fetchProduct();
+    }, []);
+
+    return (
+        <div className="home">
+            <h1>Latest Products Available</h1>
+            <div className="cards">
+                {products.map((product) => (
+                    <Product product={product} />
+                ))}
+            </div>
         </div>
-    </div>
-  )
-}
+    );
+};
 
-export default HomeScreen
-
-
-                    
+export default HomeScreen;
