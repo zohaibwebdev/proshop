@@ -195,3 +195,11 @@ footer {
     padding: 2rem 3rem;
     display: inline-block;
 }
+.btn-back {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: #3b444b;
+    color: aliceblue;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+}

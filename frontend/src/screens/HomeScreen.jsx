@@ -1,19 +1,17 @@
 import React from "react";
 import Product from "../components/Product";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { listProducts } from "../actions/productAction";
 
-const HomeScreen = () => {
-    const [products, setProducts] = useState([]);
+function HomeScreen() {
+    const dispatch = useDispatch();
+    const productList = useSelector((state) => state.productList);
+    const { products } = productList;
 
     useEffect(() => {
-        async function fetchProduct() {
-            const { data } = await axios.get("/api/products");
-            setProducts(data);
-        }
-        fetchProduct();
+        dispatch(listProducts());
     }, []);
-
     return (
         <div className="home">
             <h1>Latest Products Available</h1>
@@ -24,6 +22,6 @@ const HomeScreen = () => {
             </div>
         </div>
     );
-};
+}
 
 export default HomeScreen;
