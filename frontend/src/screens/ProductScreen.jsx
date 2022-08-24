@@ -2,20 +2,17 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Rating from "../components/Rating";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { ListProductDetails } from "../actions/productAction";
 
 const ProductScreen = (props) => {
-    const [product, setProduct] = useState([]);
+    const dispatch = useDispatch();
+    const productDetailss = useSelector((state) => state.productDetails);
     const { id } = useParams();
-
+    const { product, error, loading } = productDetailss;
     useEffect(() => {
-        async function fetchProduct() {
-            const { data } = await axios.get(`/api/products/${id}`);
-            setProduct(data);
-        }
-        fetchProduct();
-    }, []);
-
+        dispatch(ListProductDetails(id));
+    }, [dispatch]);
     return (
         <>
             <div className="button">
