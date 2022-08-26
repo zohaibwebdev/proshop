@@ -1,26 +1,27 @@
-
-import './App.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import HomeScreen from './screens/HomeScreen';
-import ProductScreen from './screens/ProductScreen';
-import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import "./App.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import HomeScreen from "./screens/HomeScreen";
+import ProductScreen from "./screens/ProductScreen";
+import CartScreen from "./screens/CartScreen";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const App = () => {
-  return (
-    <Router>
-      <Header />
-        <main className='main container'>
-          <Routes>
-            <Route path='/' exact element={<HomeScreen />} />
-            <Route path='/product/:id' element={<ProductScreen />} />
-          </Routes>
-        </main>
-        <Footer />
+    return (
+        <Router>
+            <Header />
+            <main className="main container">
+                <Routes>
+                    <Route path="/" exact element={<HomeScreen />} />
+                    <Route path="/product/:id" element={<ProductScreen />} />
+                    <Route path="/cart" element={<CartScreen />} />
+                    <Route path="/cart/:Id" element={<CartScreen />} />
+                </Routes>
+            </main>
+            <Footer />
+        </Router>
+    );
+};
 
-    </Router>
-  )
-}
-
-export default App
+export default App;

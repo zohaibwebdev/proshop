@@ -1,6 +1,7 @@
 import React from "react";
 import Product from "../components/Product";
 import Loader from "../components/Loader";
+import Message from "../components/Message";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productAction";
@@ -19,7 +20,7 @@ function HomeScreen() {
             {loading ? (
                 <Loader />
             ) : error ? (
-                <h3>{error}</h3>
+                <Message>{error}</Message>
             ) : (
                 <div className="cards">
                     {products.map((product) => (

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Rating from "../components/Rating";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ListProductDetails } from "../actions/productAction";
 
 const ProductScreen = (props) => {
+    const [qty, setQty] = useState(1);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const productDetailss = useSelector((state) => state.productDetails);
     const { id } = useParams();
@@ -13,6 +15,9 @@ const ProductScreen = (props) => {
     useEffect(() => {
         dispatch(ListProductDetails(id));
     }, [dispatch]);
+    const addToCartHandler = () => {
+        navigate(`/cart/${id}?qty=${qty}`);
+    };
     return (
         <>
             <div className="button">
@@ -20,7 +25,7 @@ const ProductScreen = (props) => {
                     Back To Home
                 </NavLink>
             </div>
-            <div className="product-main">
+            <div className="product-main" key={product.id}>
                 <figure className="product-image">
                     <img src={product.image} alt="image" />
                 </figure>
@@ -53,10 +58,31 @@ const ProductScreen = (props) => {
                         <span>status:</span>
                         <span>{product.countInStock ? "In Stock" : "Out of Stock"}</span>
                     </div>
+                    {product.countInStock > 0 && (
+                        <div className="qty-form">
+                            <span>Qty:</span>
+                            <span>
+                                <form>
+                                    <select
+                                        name=""
+                                        id=""
+                                        value={qty}
+                                        onChange={(e) => setQty(e.target.value)}
+                                    >
+                                        {[...Array(product.countInStock).keys()].map((x) => (
+                                            <option key={x + 1} value={x + 1}>
+                                                {x + 1}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </form>
+                            </span>
+                        </div>
+                    )}
                     <div className="button">
-                        <NavLink to="/" className="btn">
+                        <button className="btn" onClick={addToCartHandler}>
                             ADD TO CART
-                        </NavLink>
+                        </button>
                     </div>
                 </div>
             </div>

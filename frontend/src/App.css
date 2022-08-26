@@ -179,6 +179,12 @@ footer {
     display: flex;
     justify-content: space-between;
 }
+.third-coloum .qty-form {
+    font-size: 1.6rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
 .third-coloum .button {
     border-top: none;
     padding: 1.5rem 2rem;
@@ -305,4 +311,36 @@ footer {
     100% {
         top: 0;
     }
+}
+
+.message {
+    background: crimson;
+    color: aliceblue;
+    font-size: 1.8rem;
+    padding: 1rem;
+    max-width: 35rem;
+}
+.cart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cart-items {
+    flex-grow: 2;
+}
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    max-height: 10rem;
+    padding: 2rem;
+}
+.cart-item .item-image {
+    aspect-ratio: 1;
+    max-width: 8rem;
+}
+.cart-item .item-heading {
+    font-size: 1.8rem;
+}
+.cart-item .item-price {
+    font-size: 1.8rem;
 }
