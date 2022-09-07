@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { getUserDetails } from "../actions/userActions";
-import { useEffect } from "react";
+import { getUserDetails, updateUserProfile } from "../actions/userActions";
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 
-const ProfileScreen = () => {
+function ProfileScreen() {
     const navigate = useNavigate();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -22,92 +22,88 @@ const ProfileScreen = () => {
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
-    const orderListMy = useSelector((state) => state.orderListMy);
+    const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+    const { success } = userUpdateProfile;
 
     useEffect(() => {
         if (!userInfo) {
             navigate("/login");
         } else {
-            if (!user || !user.name || userInfo._id !== user._id) {
-                // dispatch({ type: USER_UPDATE_PROFILE_RESET });
+            if (!user || !user.name || success || userInfo._id !== user._id) {
+                dispatch({ type: USER_UPDATE_PROFILE_RESET });
                 dispatch(getUserDetails("profile"));
-                // dispatch(listMyOrders());
             } else {
                 setName(user.name);
                 setEmail(user.email);
             }
         }
-    }, [dispatch, userInfo, user]);
+    }, [dispatch, userInfo, user, success]);
 
     const submitHandler = (e) => {
         e.preventDefault();
 
         if (password != confirmPassword) {
             setMessage("Passwords do not match");
+        } else {
+            dispatch(
+                updateUserProfile({
+                    id: user._id,
+                    name: name,
+                    email: email,
+                    password: password,
+                })
+            );
+            setMessage("");
         }
-        //     } else {
-        //         // dispatch(
-        //             updateUserProfile({
-        //                 id: user._id,
-        //                 name: name,
-        //                 email: email,
-        //                 password: password,
-        //             })
-        //         );
-        //         setMessage("");
-        //     }
-        // };
     };
     return (
-        <div className="profile-container">
-            <div className="user-profile">
-                <form action="" onSubmit={submitHandler}>
-                    <h1>User Profile</h1>
-                    {error && <Message>{error}</Message>}
-                    {message && <Message>{message}</Message>}
-                    {loading && <Loader />}
-                    <div className="form-container">
-                        <input
-                            required
-                            type="text"
-                            placeholder="Enter Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                        <input
-                            required
-                            type="email"
-                            placeholder="Enter Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <input
-                            required
-                            type="password"
-                            placeholder="Enter Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        <input
-                            required
-                            type="password"
-                            placeholder="Confirm Password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                        />
-                        <div>
-                            <button className="btn" type="submit">
-                                Register
-                            </button>
-                        </div>
-                    </div>
+        <div>
+            <div>
+                <h2>User Profile</h2>
+
+                {message && <Message variant="danger">{message}</Message>}
+                {error && <Message variant="danger">{error}</Message>}
+                {loading && <Loader />}
+                <form onSubmit={submitHandler}>
+                    <input
+                        required
+                        type="name"
+                        placeholder="Enter name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+
+                    <input
+                        required
+                        type="email"
+                        placeholder="Enter Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+
+                    <input
+                        type="password"
+                        placeholder="Enter Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+
+                    <button>Update</button>
                 </form>
             </div>
-            <div className="user-orders">
-                <h2>My Orders</h2>
+
+            <div className="oder">
+                <h2>my orders</h2>
             </div>
         </div>
     );
-};
+}
 
 export default ProfileScreen;
