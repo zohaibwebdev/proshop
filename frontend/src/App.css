@@ -392,3 +392,20 @@ footer {
 .user-orders {
     padding: 5rem;
 }
+
+.main-checkout {
+    font-size: 2rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding-bottom: 2rem;
+    column-gap: 2rem;
+}
+.checkoutItem {
+    text-align: center;
+    border-bottom: 1px solid #3e8e41;
+    padding-bottom: 1rem;
+}
+.disable {
+    pointer-events: none;
+    border-bottom: 1px solid crimson;
+}

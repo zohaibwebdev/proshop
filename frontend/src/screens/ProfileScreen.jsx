@@ -16,28 +16,25 @@ function ProfileScreen() {
 
     const dispatch = useDispatch();
 
-    const userDetails = useSelector((state) => state.userDetails);
+    const { userDetails, userLogin, userUpdateProfile } = useSelector((state) => state);
     const { error, loading, user } = userDetails;
-
-    const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
-
-    const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
     const { success } = userUpdateProfile;
+    console.log(userInfo);
 
     useEffect(() => {
         if (!userInfo) {
             navigate("/login");
         } else {
-            if (!user || !user.name || success || userInfo._id !== user._id) {
+            if (false) {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET });
                 dispatch(getUserDetails("profile"));
             } else {
-                setName(user.name);
-                setEmail(user.email);
+                setName(userInfo.name);
+                setEmail(userInfo.email);
             }
         }
-    }, [dispatch, userInfo, user, success]);
+    }, []);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -47,13 +44,13 @@ function ProfileScreen() {
         } else {
             dispatch(
                 updateUserProfile({
-                    id: user._id,
+                    id: userInfo._id,
                     name: name,
                     email: email,
                     password: password,
                 })
             );
-            setMessage("");
+            setMessage("your information is updated");
         }
     };
     return (
@@ -66,6 +63,7 @@ function ProfileScreen() {
                 {loading && <Loader />}
                 <form onSubmit={submitHandler}>
                     <input
+                        autoComplete="false"
                         required
                         type="name"
                         placeholder="Enter name"
